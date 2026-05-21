@@ -1,0 +1,15 @@
+[package]
+name = "tract-extractor"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "HTML to readable markdown extraction"
+repository.workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+scraper = { workspace = true }
+ego-tree = { workspace = true }

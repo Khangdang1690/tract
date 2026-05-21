@@ -1,0 +1,33 @@
+[package]
+name = "tractd"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "tract daemon: long-lived process that owns the web-fetch pipeline"
+repository.workspace = true
+default-run = "tractd"
+
+[[bin]]
+name = "tractd"
+path = "src/main.rs"
+
+[dependencies]
+tract-proto = { workspace = true }
+tract-fetcher = { workspace = true }
+tract-extractor = { workspace = true }
+
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+uuid = { workspace = true }
+clap = { workspace = true }
+url = { workspace = true }
+dirs = { workspace = true }
+
+[dev-dependencies]
+tempfile = "3"
