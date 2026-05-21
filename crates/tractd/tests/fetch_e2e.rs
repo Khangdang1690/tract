@@ -7,9 +7,8 @@ use std::time::Duration;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::time::timeout;
 
-#[path = "../src/orchestrator.rs"]
-#[allow(dead_code)]
-mod orchestrator;
+use std::sync::Arc;
+use tractd::orchestrator;
 
 #[tokio::test]
 async fn fetch_extracts_markdown_then_serves_from_cache() {
@@ -31,8 +30,9 @@ async fn fetch_extracts_markdown_then_serves_from_cache() {
     let (port, _stop) = spawn_mock(html.to_string()).await;
 
     let cache = tract_fetcher::Cache::in_memory().unwrap();
-    let http = tract_fetcher::HttpClient::new().unwrap();
-    let orch = orchestrator::Orchestrator::new(cache, http);
+    let profile = Arc::new(tract_profile::Profile::default());
+    let http = tract_fetcher::HttpClient::new(&profile.http).unwrap();
+    let orch = orchestrator::Orchestrator::new(profile, cache, http);
 
     let url = format!("http://127.0.0.1:{port}/article");
     let result = timeout(
@@ -96,8 +96,9 @@ async fn fetch_extracts_markdown_then_serves_from_cache() {
 #[tokio::test]
 async fn fetch_invalid_url_returns_invalid_url_error() {
     let cache = tract_fetcher::Cache::in_memory().unwrap();
-    let http = tract_fetcher::HttpClient::new().unwrap();
-    let orch = orchestrator::Orchestrator::new(cache, http);
+    let profile = Arc::new(tract_profile::Profile::default());
+    let http = tract_fetcher::HttpClient::new(&profile.http).unwrap();
+    let orch = orchestrator::Orchestrator::new(profile, cache, http);
     let err = orch
         .fetch("not://a real url at all", Default::default())
         .await
@@ -109,8 +110,9 @@ async fn fetch_invalid_url_returns_invalid_url_error() {
 async fn fetch_404_returns_fetch_failed() {
     let (port, _stop) = spawn_mock_status(404, "<h1>nope</h1>".into()).await;
     let cache = tract_fetcher::Cache::in_memory().unwrap();
-    let http = tract_fetcher::HttpClient::new().unwrap();
-    let orch = orchestrator::Orchestrator::new(cache, http);
+    let profile = Arc::new(tract_profile::Profile::default());
+    let http = tract_fetcher::HttpClient::new(&profile.http).unwrap();
+    let orch = orchestrator::Orchestrator::new(profile, cache, http);
     let err = orch
         .fetch(
             &format!("http://127.0.0.1:{port}/missing"),

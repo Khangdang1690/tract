@@ -1,11 +1,12 @@
 //! HTTP engine.
 //!
-//! MVP: plain reqwest + rustls with browser-shaped default headers. Real
-//! TLS/JA3/JA4 fingerprint matching is deferred to v0.2; see DESIGN.md §11.
+//! All tuning (headers, timeouts, redirect limit) comes from `HttpProfile`.
+//! TLS fingerprinting lands in Phase D; the current backend is reqwest+rustls.
 
 use std::time::Duration;
 
-use reqwest::header::{HeaderMap, HeaderValue};
+use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
+use tract_profile::HttpProfile;
 
 use crate::FetcherError;
 
@@ -24,16 +25,16 @@ pub struct HttpClient {
 }
 
 impl HttpClient {
-    pub fn new() -> Result<Self, FetcherError> {
+    pub fn new(profile: &HttpProfile) -> Result<Self, FetcherError> {
         let inner = reqwest::Client::builder()
             .use_rustls_tls()
             .http2_adaptive_window(true)
             .gzip(true)
             .brotli(true)
-            .connect_timeout(Duration::from_secs(10))
-            .timeout(Duration::from_secs(30))
-            .redirect(reqwest::redirect::Policy::limited(10))
-            .default_headers(default_headers())
+            .connect_timeout(Duration::from_secs(profile.connect_timeout_secs))
+            .timeout(Duration::from_secs(profile.total_timeout_secs))
+            .redirect(reqwest::redirect::Policy::limited(profile.redirect_limit))
+            .default_headers(headers_from_profile(profile))
             .build()?;
         Ok(Self { inner })
     }
@@ -63,25 +64,14 @@ impl HttpClient {
     }
 }
 
-fn default_headers() -> HeaderMap {
+fn headers_from_profile(profile: &HttpProfile) -> HeaderMap {
     let mut h = HeaderMap::new();
-    let pairs: &[(&str, &str)] = &[
-        ("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"),
-        ("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8"),
-        ("Accept-Language", "en-US,en;q=0.9"),
-        ("Accept-Encoding", "gzip, deflate, br"),
-        ("Sec-Ch-Ua", "\"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\", \"Google Chrome\";v=\"131\""),
-        ("Sec-Ch-Ua-Mobile", "?0"),
-        ("Sec-Ch-Ua-Platform", "\"Windows\""),
-        ("Sec-Fetch-Dest", "document"),
-        ("Sec-Fetch-Mode", "navigate"),
-        ("Sec-Fetch-Site", "none"),
-        ("Sec-Fetch-User", "?1"),
-        ("Upgrade-Insecure-Requests", "1"),
-    ];
-    for (k, v) in pairs {
-        if let Ok(val) = HeaderValue::from_str(v) {
-            h.insert(*k, val);
+    for (name, value) in &profile.headers {
+        if let (Ok(n), Ok(v)) = (
+            HeaderName::from_bytes(name.as_bytes()),
+            HeaderValue::from_str(value),
+        ) {
+            h.insert(n, v);
         }
     }
     h

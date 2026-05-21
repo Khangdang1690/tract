@@ -11,9 +11,7 @@ use tokio::time::{sleep, timeout};
 // crate's public surface. We re-implement the minimal client locally to avoid
 // publishing the internal modules.
 
-#[path = "../src/ipc.rs"]
-#[allow(dead_code)]
-mod ipc;
+use tractd::ipc;
 
 #[tokio::test]
 async fn ping_and_status_roundtrip() {

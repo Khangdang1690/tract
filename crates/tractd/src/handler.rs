@@ -50,9 +50,12 @@ mod tests {
     use crate::orchestrator::Orchestrator;
 
     fn state() -> AppState {
+        let profile = std::sync::Arc::new(tract_profile::Profile::default());
+        let http = HttpClient::new(&profile.http).unwrap();
         AppState::new(Orchestrator::new(
+            profile,
             Cache::in_memory().unwrap(),
-            HttpClient::new().unwrap(),
+            http,
         ))
     }
 

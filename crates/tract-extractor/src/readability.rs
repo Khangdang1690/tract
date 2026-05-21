@@ -1,48 +1,24 @@
 //! Pick the element most likely to contain the article body.
 //!
-//! MVP approach: try a curated list of structural selectors that catch ~80%
-//! of well-marked-up sites; fall back to a scored search over `<div>`s when
-//! nothing structural matches; final fallback is `<body>`.
+//! Try a curated list of structural selectors that catch ~80% of well-marked-up
+//! sites; fall back to a scored search over `<div>`s when nothing structural
+//! matches; final fallback is `<body>`. All tuning values come from
+//! `ExtractorProfile`.
 
 use scraper::{ElementRef, Html, Selector};
-
-/// Selectors that, when present and substantive, almost certainly mark the
-/// main article body. Order matters: most specific first.
-const CANDIDATE_SELECTORS: &[&str] = &[
-    "article",
-    "main article",
-    "main",
-    "[role=main]",
-    ".article-body",
-    ".article__body",
-    ".articleBody",
-    ".post-content",
-    ".post__content",
-    ".entry-content",
-    ".entry__content",
-    ".story-body",
-    ".content-body",
-    "#content",
-    "#main-content",
-    "#bodyContent",
-    "#mw-content-text",
-];
-
-/// Minimum visible text length for a structural candidate to be accepted
-/// without falling through to scoring.
-const MIN_TEXT_LEN: usize = 200;
+use tract_profile::ExtractorProfile;
 
 /// Find the best content container in the document.
-pub fn find_main_content(doc: &Html) -> ElementRef<'_> {
-    for sel_str in CANDIDATE_SELECTORS {
+pub fn find_main_content<'a>(doc: &'a Html, profile: &ExtractorProfile) -> ElementRef<'a> {
+    for sel_str in &profile.candidate_selectors {
         if let Some(el) = first_matching(doc, sel_str) {
-            if visible_text_len(el) >= MIN_TEXT_LEN {
+            if visible_text_len(el) >= profile.min_text_len {
                 return el;
             }
         }
     }
 
-    if let Some(el) = score_best_div(doc) {
+    if let Some(el) = score_best_div(doc, profile) {
         return el;
     }
 
@@ -64,11 +40,11 @@ fn body_or_root(doc: &Html) -> ElementRef<'_> {
 /// Pick the highest-scoring `<div>` if no structural selector matched.
 /// Score combines text length, paragraph count, and class/id signals;
 /// link density damps the result.
-fn score_best_div(doc: &Html) -> Option<ElementRef<'_>> {
+fn score_best_div<'a>(doc: &'a Html, profile: &ExtractorProfile) -> Option<ElementRef<'a>> {
     let sel = Selector::parse("div, section").ok()?;
-    let mut best: Option<(f32, ElementRef<'_>)> = None;
+    let mut best: Option<(f32, ElementRef<'a>)> = None;
     for el in doc.select(&sel) {
-        let score = score(el);
+        let score = score(el, profile);
         if score < 200.0 {
             continue;
         }
@@ -80,7 +56,7 @@ fn score_best_div(doc: &Html) -> Option<ElementRef<'_>> {
     best.map(|(_, el)| el)
 }
 
-fn score(el: ElementRef<'_>) -> f32 {
+fn score(el: ElementRef<'_>, profile: &ExtractorProfile) -> f32 {
     let total = visible_text_len(el) as f32;
     if total < 50.0 {
         return 0.0;
@@ -93,13 +69,13 @@ fn score(el: ElementRef<'_>) -> f32 {
         + count_descendants(el, "h2")
         + count_descendants(el, "h3")) as f32;
 
-    let bonus = class_id_bonus(el);
+    let bonus = class_id_bonus(el, profile);
 
-    let base = total + para_count * 80.0 + head_count * 40.0 + bonus;
-    base * (1.0 - link_density.min(0.9))
+    let base = total + para_count * profile.paragraph_weight + head_count * profile.heading_weight + bonus;
+    base * (1.0 - link_density.min(profile.link_density_cap))
 }
 
-fn class_id_bonus(el: ElementRef<'_>) -> f32 {
+fn class_id_bonus(el: ElementRef<'_>, profile: &ExtractorProfile) -> f32 {
     let mut s = String::new();
     if let Some(c) = el.value().attr("class") {
         s.push_str(c);
@@ -110,19 +86,14 @@ fn class_id_bonus(el: ElementRef<'_>) -> f32 {
     }
     let s = s.to_ascii_lowercase();
     let mut bonus: f32 = 0.0;
-    for tok in &[
-        "article", "content", "post", "story", "entry", "body", "main",
-    ] {
-        if s.contains(tok) {
-            bonus += 80.0;
+    for tok in &profile.class_id_positive_tokens {
+        if s.contains(tok.as_str()) {
+            bonus += profile.positive_token_bonus;
         }
     }
-    for tok in &[
-        "nav", "footer", "sidebar", "aside", "comment", "promo", "advert", "cookie", "modal",
-        "popup", "menu", "share", "social", "related",
-    ] {
-        if s.contains(tok) {
-            bonus -= 100.0;
+    for tok in &profile.class_id_negative_tokens {
+        if s.contains(tok.as_str()) {
+            bonus += profile.negative_token_penalty;
         }
     }
     bonus
@@ -192,6 +163,11 @@ fn is_skipped_for_text(tag: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use tract_profile::Profile;
+
+    fn profile() -> ExtractorProfile {
+        Profile::default().extractor
+    }
 
     #[test]
     fn picks_article_over_nav() {
@@ -208,7 +184,7 @@ mod tests {
             </body></html>
         "#;
         let doc = Html::parse_document(html);
-        let main = find_main_content(&doc);
+        let main = find_main_content(&doc, &profile());
         assert_eq!(main.value().name(), "article");
     }
 
@@ -216,7 +192,7 @@ mod tests {
     fn falls_back_to_body_for_trivial_doc() {
         let html = "<html><body><p>hi</p></body></html>";
         let doc = Html::parse_document(html);
-        let main = find_main_content(&doc);
+        let main = find_main_content(&doc, &profile());
         assert_eq!(main.value().name(), "body");
     }
 
@@ -234,7 +210,7 @@ mod tests {
             </body></html>
         "#;
         let doc = Html::parse_document(html);
-        let main = find_main_content(&doc);
+        let main = find_main_content(&doc, &profile());
         assert_eq!(
             main.value().attr("class"),
             Some("post-content"),

@@ -1,20 +1,14 @@
 //! `tractd` — the tract daemon entrypoint.
 
-mod client;
-mod handler;
-mod ipc;
-mod orchestrator;
-mod server;
-mod state;
-
 use std::path::PathBuf;
+use std::sync::Arc;
 
 use anyhow::Context;
 use clap::{Parser, Subcommand};
 use tract_fetcher::{Cache, HttpClient};
 use tract_proto::{FetchOptions, Method, ResultBody};
 
-use crate::{orchestrator::Orchestrator, state::AppState};
+use tractd::{client, ipc, orchestrator::Orchestrator, server, state::AppState};
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -64,8 +58,9 @@ fn build_orchestrator() -> anyhow::Result<(Orchestrator, PathBuf)> {
     let cache_path = data_dir.join("cache.db");
     let cache = Cache::open(&cache_path)
         .with_context(|| format!("opening cache at {}", cache_path.display()))?;
-    let http = HttpClient::new().context("building HTTP client")?;
-    Ok((Orchestrator::new(cache, http), cache_path))
+    let profile = Arc::new(tract_profile::Profile::default());
+    let http = HttpClient::new(&profile.http).context("building HTTP client")?;
+    Ok((Orchestrator::new(profile, cache, http), cache_path))
 }
 
 async fn run_serve() -> anyhow::Result<()> {

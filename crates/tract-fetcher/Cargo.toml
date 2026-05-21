@@ -18,3 +18,4 @@ sha2 = { workspace = true }
 url = { workspace = true }
 reqwest = { workspace = true }
 rusqlite = { workspace = true }
+tract-profile = { workspace = true }

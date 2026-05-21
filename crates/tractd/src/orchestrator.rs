@@ -11,22 +11,23 @@ use tract_fetcher::{
     cache::{expiry_from_headers, CachedResponse},
     Cache, HttpClient,
 };
+use tract_profile::Profile;
 use tract_proto::{ErrorCode, FetchOptions, FetchResult, ProtoError};
 use uuid::Uuid;
-
-pub const DEFAULT_TTL_SECS: i64 = 3600;
 
 type FetchOutcome = Result<FetchResult, ProtoError>;
 
 pub struct Orchestrator {
+    profile: Arc<Profile>,
     cache: Cache,
     http: HttpClient,
     inflight: Mutex<HashMap<String, broadcast::Sender<Arc<FetchOutcome>>>>,
 }
 
 impl Orchestrator {
-    pub fn new(cache: Cache, http: HttpClient) -> Self {
+    pub fn new(profile: Arc<Profile>, cache: Cache, http: HttpClient) -> Self {
         Self {
+            profile,
             cache,
             http,
             inflight: Mutex::new(HashMap::new()),
@@ -81,6 +82,21 @@ impl Orchestrator {
         result
     }
 
+    /// Hermetic extraction: parse `html` as if it had been fetched from `url`,
+    /// without touching the cache or network. Used by the eval harness.
+    pub fn extract_from_html(profile: &Profile, html: &str, url: &str) -> FetchOutcome {
+        let extracted = extract(html, url, &profile.extractor)
+            .map_err(|e| ProtoError::new(ErrorCode::ExtractFailed, e.to_string()))?;
+        Ok(FetchResult {
+            markdown: extracted.markdown,
+            title: extracted.title,
+            final_url: url.to_string(),
+            fetched_at: 0,
+            from_cache: false,
+            trace_id: Uuid::new_v4().to_string(),
+        })
+    }
+
     async fn do_fetch(&self, normalized: &str, _opts: FetchOptions) -> FetchOutcome {
         let raw = self
             .http
@@ -100,11 +116,12 @@ impl Orchestrator {
             Err(_) => String::from_utf8_lossy(&raw.body).into_owned(),
         };
 
-        let extracted = extract(&body_text, &raw.final_url)
+        let extracted = extract(&body_text, &raw.final_url, &self.profile.extractor)
             .map_err(|e| ProtoError::new(ErrorCode::ExtractFailed, e.to_string()))?;
 
         let now = current_time();
-        let expires_at = expiry_from_headers(&raw.headers, now, DEFAULT_TTL_SECS);
+        let expires_at =
+            expiry_from_headers(&raw.headers, now, self.profile.cache.default_ttl_secs);
         let entry = CachedResponse {
             url: normalized.to_string(),
             final_url: raw.final_url.clone(),
@@ -133,7 +150,7 @@ impl Orchestrator {
             Ok(s) => s.to_string(),
             Err(_) => String::from_utf8_lossy(&entry.body).into_owned(),
         };
-        let extracted = extract(&body_text, &entry.final_url)
+        let extracted = extract(&body_text, &entry.final_url, &self.profile.extractor)
             .map_err(|e| ProtoError::new(ErrorCode::ExtractFailed, e.to_string()))?;
         Ok(FetchResult {
             markdown: extracted.markdown,
@@ -151,4 +168,31 @@ fn current_time() -> i64 {
         .duration_since(SystemTime::UNIX_EPOCH)
         .map(|d| d.as_secs() as i64)
         .unwrap_or(0)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn extract_from_html_returns_markdown() {
+        let profile = Profile::default();
+        let html = r#"<!doctype html>
+            <html lang="en">
+            <head><title>Hello</title></head>
+            <body>
+                <nav>chrome</nav>
+                <article>
+                    <h1>Hello</h1>
+                    <p>This is the article body, long enough to count as content.</p>
+                </article>
+            </body></html>"#;
+        let result = Orchestrator::extract_from_html(&profile, html, "https://x.test/hello")
+            .expect("must succeed");
+        assert_eq!(result.title.as_deref(), Some("Hello"));
+        assert_eq!(result.final_url, "https://x.test/hello");
+        assert!(!result.from_cache);
+        assert!(result.markdown.contains("# Hello"));
+        assert!(!result.markdown.contains("chrome"), "nav leaked");
+    }
 }

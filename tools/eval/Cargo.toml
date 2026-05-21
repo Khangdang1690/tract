@@ -1,0 +1,25 @@
+[package]
+name = "eval"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Reference-corpus evaluation harness for tract."
+publish = false
+
+[[bin]]
+name = "eval"
+path = "src/main.rs"
+
+[dependencies]
+tractd = { path = "../../crates/tractd" }
+tract-profile = { workspace = true }
+tract-proto = { workspace = true }
+
+anyhow = { workspace = true }
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+toml = { workspace = true }
+strsim = "0.11"
+chrono = { version = "0.4", default-features = false, features = ["clock", "serde"] }

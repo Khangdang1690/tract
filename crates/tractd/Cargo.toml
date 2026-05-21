@@ -8,12 +8,17 @@ description = "tract daemon: long-lived process that owns the web-fetch pipeline
 repository.workspace = true
 default-run = "tractd"
 
+[lib]
+name = "tractd"
+path = "src/lib.rs"
+
 [[bin]]
 name = "tractd"
 path = "src/main.rs"
 
 [dependencies]
 tract-proto = { workspace = true }
+tract-profile = { workspace = true }
 tract-fetcher = { workspace = true }
 tract-extractor = { workspace = true }
 

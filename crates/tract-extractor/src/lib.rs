@@ -6,6 +6,7 @@ mod readability;
 pub use readability::find_main_content;
 
 use scraper::{Html, Selector};
+use tract_profile::ExtractorProfile;
 
 #[derive(Debug, Clone)]
 pub struct Extracted {
@@ -21,14 +22,18 @@ pub enum ExtractError {
     Empty,
 }
 
-/// Parse `html` and return a `Extracted` with the article body as markdown.
-pub fn extract(html: &str, _final_url: &str) -> Result<Extracted, ExtractError> {
+/// Parse `html` and return an `Extracted` with the article body as markdown.
+pub fn extract(
+    html: &str,
+    _final_url: &str,
+    profile: &ExtractorProfile,
+) -> Result<Extracted, ExtractError> {
     if html.trim().is_empty() {
         return Err(ExtractError::Empty);
     }
     let doc = Html::parse_document(html);
 
-    let main = find_main_content(&doc);
+    let main = find_main_content(&doc, profile);
     let markdown = markdown::render(main);
 
     let title = doc_title(&doc).or_else(|| first_heading(main));
@@ -83,6 +88,11 @@ fn byline_of(doc: &Html) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use tract_profile::Profile;
+
+    fn profile() -> ExtractorProfile {
+        Profile::default().extractor
+    }
 
     #[test]
     fn full_extract_smoke() {
@@ -102,7 +112,7 @@ mod tests {
                 </article>
                 <footer>copyright</footer>
             </body></html>"#;
-        let out = extract(html, "https://x.test/article").unwrap();
+        let out = extract(html, "https://x.test/article", &profile()).unwrap();
         assert_eq!(out.title.as_deref(), Some("Example Article"));
         assert_eq!(out.language.as_deref(), Some("en"));
         assert_eq!(out.byline.as_deref(), Some("Jane Doe"));
@@ -127,6 +137,6 @@ mod tests {
 
     #[test]
     fn empty_html_errors() {
-        assert!(matches!(extract("", "x"), Err(ExtractError::Empty)));
+        assert!(matches!(extract("", "x", &profile()), Err(ExtractError::Empty)));
     }
 }

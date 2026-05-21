@@ -1,0 +1,12 @@
+[project]
+name = "tract-refgen"
+version = "0.1.0"
+description = "Generate reference-corpus HTML fixtures from URLs using Playwright."
+requires-python = ">=3.10"
+dependencies = [
+    "playwright>=1.40",
+    "tomli>=2.0; python_version<'3.11'",
+]
+
+[tool.refgen]
+# Entry points are invoked via `python -m refgen`; see refgen.py.

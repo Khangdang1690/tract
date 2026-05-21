@@ -13,3 +13,4 @@ thiserror = { workspace = true }
 tracing = { workspace = true }
 scraper = { workspace = true }
 ego-tree = { workspace = true }
+tract-profile = { workspace = true }
