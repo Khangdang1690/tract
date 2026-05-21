@@ -1,0 +1,717 @@
+<div>
+<div>
+Create your first Hugo project.
+</div>
+<p>
+In this tutorial you will:
+</p>
+<ol>
+<li>
+Create a project
+</li>
+<li>
+Add content
+</li>
+<li>
+Configure the project
+</li>
+<li>
+Publish the project
+</li>
+</ol>
+<h2>
+Prerequisites
+<a>
+</a>
+</h2>
+<p>
+Before you begin this tutorial you must:
+</p>
+<ol>
+<li>
+<a>
+Install Hugo
+</a>
+(any edition, v0.158.0 or later)
+</li>
+<li>
+<a>
+Install Git
+</a>
+</li>
+</ol>
+<p>
+You must also be comfortable working from the command line.
+</p>
+<h2>
+Create a project
+<a>
+</a>
+</h2>
+<h3>
+Commands
+<a>
+</a>
+</h3>
+<div>
+<div>
+<div>
+</div>
+<div>
+<div>
+<p>
+<strong>
+If you are a Windows user:
+</strong>
+</p>
+<ul>
+<li>
+Do not use the Command Prompt
+</li>
+<li>
+Do not use Windows PowerShell
+</li>
+<li>
+Run these commands from
+<a>
+PowerShell
+</a>
+or a Linux terminal such as WSL or Git > Bash
+</li>
+</ul>
+<p>
+PowerShell and Windows PowerShell
+<a>
+are different applications
+</a>
+.
+</p>
+</div>
+</div>
+</div>
+</div>
+<p>
+Verify that you have installed Hugo v0.158.0 or later.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+hugo version
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Run these commands to create a Hugo project with the
+<a>
+Ananke
+</a>
+theme. The next section provides an explanation of each command.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+hugo new project quickstart
+</span>
+</span>
+<span>
+<span>
+cd quickstart
+</span>
+</span>
+<span>
+<span>
+git init
+</span>
+</span>
+<span>
+<span>
+git submodule add https://github.com/gohugo-ananke/ananke themes/ananke
+</span>
+</span>
+<span>
+<span>
+echo "theme = 'ananke'" >> hugo.toml
+</span>
+</span>
+<span>
+<span>
+hugo server
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+View your project at the URL displayed in your terminal. Press
+<code>
+Ctrl + C
+</code>
+to stop Hugo’s development server.
+</p>
+<h3>
+Explanation of commands
+<a>
+</a>
+</h3>
+<p>
+Create the
+<a>
+project skeleton
+</a>
+for your project in the
+<code>
+quickstart
+</code>
+directory.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+hugo new project quickstart
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Change the current directory to the root of your project.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+cd quickstart
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Initialize an empty Git repository in the current directory.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+git init
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Clone the
+<a>
+Ananke
+</a>
+theme into the
+<code>
+themes
+</code>
+directory, adding it to your project as a
+<a>
+Git submodule
+</a>
+.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+git submodule add https://github.com/gohugo-ananke/ananke themes/ananke
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Append a line to your project configuration file, indicating the current theme.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+echo "theme = 'ananke'" >> hugo.toml
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Start Hugo’s development server.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+hugo server
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Press
+<code>
+Ctrl + C
+</code>
+to stop Hugo’s development server.
+</p>
+<h2>
+Add content
+<a>
+</a>
+</h2>
+<p>
+Add a new page to your project.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+hugo new content content/posts/my-first-post.md
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Hugo created the file in the
+<code>
+content/posts
+</code>
+directory. Open the file with your editor.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
++++
+</span>
+</span>
+<span>
+<span>
+title = 'My First Post'
+</span>
+</span>
+<span>
+<span>
+date = 2024-01-14T07:07:07+01:00
+</span>
+</span>
+<span>
+<span>
+draft = true
+</span>
+</span>
+<span>
+<span>
++++
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Notice the
+<code>
+draft
+</code>
+value in the
+<a>
+front matter
+</a>
+is
+<code>
+true
+</code>
+. By default, Hugo does not publish draft content when you build the project. Learn more about
+<a>
+draft, future, and expired content
+</a>
+.
+</p>
+<p>
+Add some
+<a>
+Markdown
+</a>
+to the body of the post, but do not change the
+<code>
+draft
+</code>
+value.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
++++
+</span>
+</span>
+<span>
+<span>
+title = 'My First Post'
+</span>
+</span>
+<span>
+<span>
+date = 2024-01-14T07:07:07+01:00
+</span>
+</span>
+<span>
+<span>
+draft = true
+</span>
+</span>
+<span>
+<span>
++++
+</span>
+</span>
+<span>
+<span>
+## Introduction
+</span>
+</span>
+<span>
+<span>
+</span>
+</span>
+<span>
+<span>
+This is **bold** text, and this is *emphasized* text.
+</span>
+</span>
+<span>
+<span>
+</span>
+</span>
+<span>
+<span>
+Visit the [Hugo](https://gohugo.io) website!
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Save the file, then start Hugo’s development server. You can run either of the following commands to include draft content.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+hugo server --buildDrafts
+</span>
+</span>
+<span>
+<span>
+hugo server -D
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+View your project at the URL displayed in your terminal. Keep the development server running as you continue to add and change content.
+</p>
+<p>
+When satisfied with your new content, set the front matter
+<code>
+draft
+</code>
+parameter to
+<code>
+false
+</code>
+.
+</p>
+<div>
+<div>
+<div>
+</div>
+<div>
+<div>
+<p>
+Hugo’s rendering engine conforms to the CommonMark
+<a>
+specification
+</a>
+for Markdown. The CommonMark organization provides a useful
+<a>
+live testing tool
+</a>
+powered by the reference implementation.
+</p>
+</div>
+</div>
+</div>
+</div>
+<h2>
+Configure the project
+<a>
+</a>
+</h2>
+<p>
+With your editor, open your
+<a>
+project configuration
+</a>
+file (
+<code>
+hugo.toml
+</code>
+) in the root of your project.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+baseURL = 'https://example.org/'
+</span>
+</span>
+<span>
+<span>
+locale = 'en-us'
+</span>
+</span>
+<span>
+<span>
+title = 'My New Hugo Project'
+</span>
+</span>
+<span>
+<span>
+theme = 'ananke'
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+Make the following changes:
+</p>
+<ol>
+<li>
+Set the
+<code>
+baseURL
+</code>
+for your project. This value must begin with the protocol and end with a slash, as shown above.
+</li>
+<li>
+Set the
+<code>
+locale
+</code>
+to your locale.
+</li>
+<li>
+Set the
+<code>
+title
+</code>
+for your project.
+</li>
+</ol>
+<p>
+Start Hugo’s development server to see your changes, remembering to include draft content.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+hugo server -D
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<div>
+<div>
+<div>
+</div>
+<div>
+<div>
+<p>
+Now that you have the Ananke theme installed, check out their
+<a>
+documentation
+</a>
+and
+<a>
+demonstration site
+</a>
+to learn how to configure and customize it.
+</p>
+</div>
+</div>
+</div>
+</div>
+<h2>
+Publish the project
+<a>
+</a>
+</h2>
+<p>
+In this step you will
+<em>
+publish
+</em>
+your project, but you will not
+<em>
+deploy
+</em>
+it.
+</p>
+<p>
+When you publish your project, Hugo renders all build artifacts to the
+<code>
+public
+</code>
+directory in the root of your project. This includes the HTML files for every site, along with assets such as images, CSS, and JavaScript. The command is simple.
+</p>
+<div>
+<div>
+<div>
+<pre>
+<code>
+<span>
+<span>
+hugo
+</span>
+</span>
+</code>
+</pre>
+</div>
+</div>
+</div>
+<p>
+To learn how to
+<em>
+deploy
+</em>
+your project, see the
+<a>
+host and deploy
+</a>
+section.
+</p>
+<h2>
+Ask for help
+<a>
+</a>
+</h2>
+<p>
+Hugo’s
+<a>
+forum
+</a>
+is an active community of users and developers who answer questions, share knowledge, and provide examples. A quick search of over 20,000 topics will often answer your question. Please be sure to read about
+<a>
+requesting help
+</a>
+before asking your first question.
+</p>
+<h2>
+Other resources
+<a>
+</a>
+</h2>
+<p>
+For other resources to help you learn Hugo, including books and video tutorials, see the
+<a>
+external learning resources
+</a>
+page.
+</p>
+<div>
+<hr>
+<div>
+Last updated: May 16, 2026 :
+<a>
+content: Update quick start guide (6411146d2)
+</a>
+</div>
+<a>
+Improve this page
+</a>
+</div>
+</div>
+</article>

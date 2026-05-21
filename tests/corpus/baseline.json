@@ -1,0 +1,278 @@
+{
+  "ran_at": "2026-05-21T23:48:12.049878+00:00",
+  "profile_name": "chrome-stable-windows",
+  "buckets": {
+    "adversarial": {
+      "count": 4,
+      "scored": 4,
+      "missing_fixture": 0,
+      "missing_expected": 0,
+      "extract_failed": 0,
+      "avg_similarity": 0.97083336,
+      "threshold": 0.0
+    },
+    "hard": {
+      "count": 6,
+      "scored": 6,
+      "missing_fixture": 0,
+      "missing_expected": 0,
+      "extract_failed": 0,
+      "avg_similarity": 0.5059762,
+      "threshold": 0.6
+    },
+    "moderate": {
+      "count": 10,
+      "scored": 10,
+      "missing_fixture": 0,
+      "missing_expected": 0,
+      "extract_failed": 0,
+      "avg_similarity": 0.34643427,
+      "threshold": 0.8
+    },
+    "trivial": {
+      "count": 6,
+      "scored": 6,
+      "missing_fixture": 0,
+      "missing_expected": 0,
+      "extract_failed": 0,
+      "avg_similarity": 0.700435,
+      "threshold": 0.95
+    }
+  },
+  "entries": [
+    {
+      "id": "example-com",
+      "bucket": "trivial",
+      "status": "scored",
+      "similarity": 1.0,
+      "text_recall": 1.0,
+      "text_precision": 1.0,
+      "passed": true
+    },
+    {
+      "id": "static-blog-post",
+      "bucket": "trivial",
+      "status": "scored",
+      "similarity": 1.0,
+      "text_recall": 1.0,
+      "text_precision": 1.0,
+      "passed": true
+    },
+    {
+      "id": "mdn-array-map",
+      "bucket": "trivial",
+      "status": "scored",
+      "similarity": 0.6245319,
+      "text_recall": 1.0,
+      "text_precision": 0.8651685,
+      "passed": false
+    },
+    {
+      "id": "rfc-2324-coffeepot",
+      "bucket": "trivial",
+      "status": "scored",
+      "similarity": 0.31731004,
+      "text_recall": 0.6730769,
+      "text_precision": 0.114369504,
+      "passed": false
+    },
+    {
+      "id": "hugo-quickstart",
+      "bucket": "trivial",
+      "status": "scored",
+      "similarity": 0.4747212,
+      "text_recall": 0.9230769,
+      "text_precision": 0.47191012,
+      "passed": false
+    },
+    {
+      "id": "httpbin-html",
+      "bucket": "trivial",
+      "status": "scored",
+      "similarity": 0.78604656,
+      "text_recall": 0.95454544,
+      "text_precision": 1.0,
+      "passed": false
+    },
+    {
+      "id": "wikipedia-erlang",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.13731338,
+      "text_recall": 0.6727273,
+      "text_precision": 0.07883818,
+      "passed": false
+    },
+    {
+      "id": "github-readme-rust",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.9574722,
+      "text_recall": 0.9583333,
+      "text_precision": 1.0,
+      "passed": true
+    },
+    {
+      "id": "pypi-requests",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.15685694,
+      "text_recall": 1.0,
+      "text_precision": 0.095115684,
+      "passed": false
+    },
+    {
+      "id": "stackoverflow-question",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.8666668,
+      "text_recall": 1.0,
+      "text_precision": 0.8,
+      "passed": true
+    },
+    {
+      "id": "python-docs-functions",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.07114726,
+      "text_recall": 0.19318181,
+      "text_precision": 0.017281106,
+      "passed": false
+    },
+    {
+      "id": "real-python-tutorial",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.2309895,
+      "text_recall": 0.93333334,
+      "text_precision": 0.23734178,
+      "passed": false
+    },
+    {
+      "id": "seriouseats-recipe",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.4,
+      "text_recall": 0.5,
+      "text_precision": 0.5,
+      "passed": false
+    },
+    {
+      "id": "rust-book-ownership",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.35032967,
+      "text_recall": 1.0,
+      "text_precision": 0.36636636,
+      "passed": false
+    },
+    {
+      "id": "mdn-fetch-api",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.19356707,
+      "text_recall": 0.68085104,
+      "text_precision": 0.20253165,
+      "passed": false
+    },
+    {
+      "id": "no-paywall-news",
+      "bucket": "moderate",
+      "status": "scored",
+      "similarity": 0.1,
+      "text_recall": 0.0,
+      "text_precision": 0.0,
+      "passed": false
+    },
+    {
+      "id": "cloudflare-news",
+      "bucket": "hard",
+      "status": "scored",
+      "similarity": 0.109561756,
+      "text_recall": 0.074074075,
+      "text_precision": 0.008928572,
+      "passed": false
+    },
+    {
+      "id": "shopify-product",
+      "bucket": "hard",
+      "status": "scored",
+      "similarity": 1.0,
+      "text_recall": 1.0,
+      "text_precision": 1.0,
+      "passed": true
+    },
+    {
+      "id": "discourse-thread",
+      "bucket": "hard",
+      "status": "scored",
+      "similarity": 0.49818182,
+      "text_recall": 0.875,
+      "text_precision": 0.67741936,
+      "passed": false
+    },
+    {
+      "id": "akamai-doc",
+      "bucket": "hard",
+      "status": "scored",
+      "similarity": 0.58525646,
+      "text_recall": 0.95238096,
+      "text_precision": 0.53333336,
+      "passed": false
+    },
+    {
+      "id": "js-spa-listing",
+      "bucket": "hard",
+      "status": "scored",
+      "similarity": 0.2,
+      "text_recall": 0.0,
+      "text_precision": 0.0,
+      "passed": false
+    },
+    {
+      "id": "press-release",
+      "bucket": "hard",
+      "status": "scored",
+      "similarity": 0.6428572,
+      "text_recall": 0.5714286,
+      "text_precision": 0.5714286,
+      "passed": true
+    },
+    {
+      "id": "cloudflare-block-page",
+      "bucket": "adversarial",
+      "status": "scored",
+      "similarity": 0.88333344,
+      "text_recall": 1.0,
+      "text_precision": 0.8,
+      "passed": true
+    },
+    {
+      "id": "soft-200-challenge",
+      "bucket": "adversarial",
+      "status": "scored",
+      "similarity": 1.0,
+      "text_recall": 1.0,
+      "text_precision": 1.0,
+      "passed": true
+    },
+    {
+      "id": "stub-response",
+      "bucket": "adversarial",
+      "status": "scored",
+      "similarity": 1.0,
+      "text_recall": 1.0,
+      "text_precision": 1.0,
+      "passed": true
+    },
+    {
+      "id": "wrong-page-redirect",
+      "bucket": "adversarial",
+      "status": "scored",
+      "similarity": 1.0,
+      "text_recall": 1.0,
+      "text_precision": 1.0,
+      "passed": true
+    }
+  ]
+}

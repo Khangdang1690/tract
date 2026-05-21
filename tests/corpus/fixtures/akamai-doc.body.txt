@@ -1,0 +1,726 @@
+<div>
+<cds-styles>
+<div>
+<div>
+<div>
+<div>
+<div>
+<h2>
+Powered by Purpose
+</h2>
+<div>
+<p>
+We can do good for the world and do good for business when we combine our technology, our people, and our broader networks.
+</p>
+</div>
+</div>
+</div>
+<div>
+<div>
+<div>
+<div>
+<img>
+</div>
+</div>
+<cds-styles>
+<div>
+<div>
+<cds-styles>
+<div>
+<div>
+<h3>
+Innovations for your digital future
+</h3>
+<div>
+<p>
+Empower your organization with secure, AI-ready solutions that propel resilience and performance.
+</p>
+</div>
+<div>
+<span>
+<a>
+<span>
+Explore our products
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<h3>
+Visionaries driving change
+</h3>
+<div>
+<p>
+Meet the leaders who shape Cisco's mission to help build a connected, resilient world.
+</p>
+</div>
+<div>
+<span>
+<a>
+<span>
+Get to know our leaders
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<h3>
+Transparency. Growth. Impact.
+</h3>
+<div>
+<p>
+Get insights into our financial health and our strategic progress in powering tomorrow's technology.
+</p>
+</div>
+<div>
+<span>
+<a>
+<span>
+Browse financial insights
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</cds-styles>
+</div>
+</div>
+</cds-styles>
+</div>
+</div>
+<div>
+<span>
+<a>
+<span>
+Learn about our Purpose
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<picture>
+<source>
+<source>
+<source>
+<img>
+</picture>
+</div>
+<div>
+<div>
+<p>
+Why Cisco
+</p>
+<h3>
+Cisco's platform approach unifies products into powerful systems that deliver greater value with less effort for your IT team
+</h3>
+<div>
+<p>
+Bringing together 40+ years of trust, expertise, and innovation
+</p>
+</div>
+<div>
+<span>
+<a>
+<span>
+See the Cisco advantage
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<div>
+<div>
+<img>
+<meta>
+</div>
+</div>
+<div>
+<h2>
+A legacy of innovation
+</h2>
+<div>
+<p>
+Four decades ago, computers barely communicated with one another. Today, the network connects nearly everything—even satellites, power grids, and phones—forging a universal language of connection that has become our global digital nervous system.
+</p>
+<p>
+See how the network has unified technologies, setting the stage for the digital transformations to come in the AI era.
+</p>
+</div>
+<div>
+<span>
+<a>
+<span>
+Explore Cisco's history
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<div>
+<div>
+<img>
+<meta>
+</div>
+</div>
+<div>
+<h2>
+Calling all talent
+</h2>
+<div>
+<p>
+Don't just find a job. Find your passion. Something you can believe in. Our shared Purpose at Cisco creates a unique culture that makes our work more meaningful.
+</p>
+</div>
+<div>
+<span>
+<a>
+<span>
+Explore Cisco careers
+</span>
+</a>
+</span>
+<span>
+<a>
+<span>
+See why it's a great place to work
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<div>
+<div>
+<div>
+<h2>
+Facts and information
+</h2>
+</div>
+</div>
+<div>
+<div>
+<cds-styles>
+<div>
+<div>
+<cds-styles>
+<div>
+<div>
+<h3>
+Corporate headquarters
+</h3>
+<div>
+<p>
+3098 Olsen Drive
+<br>
+San Jose, CA 95128
+</p>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<h3>
+Legal mailing address
+</h3>
+<div>
+<p>
+Cisco Systems, Inc.
+<br>
+170 West Tasman Drive
+<br>
+San Jose, CA 95134
+</p>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<h3>
+Phone
+</h3>
+<div>
+<p>
+408 526 4000
+<br>
+800 553 6387 (toll-free)
+</p>
+</div>
+</div>
+</div>
+</cds-styles>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<h3>
+</h3>
+<div>
+<div>
+<div>
+<p>
+Our industry-leading portfolio of technology innovations comprises
+<a>
+products
+</a>
+,
+<a>
+solutions
+</a>
+, and
+<a>
+services
+</a>
+. With networking, security, collaboration, observability, cloud management, and more, we help to securely connect organizations, industries, and communities.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3>
+</h3>
+<div>
+<div>
+<div>
+<p>
+The
+<a>
+Cisco Newsroom
+</a>
+is our hub for news, thought leadership, features, events, reports, and press materials.
+</p>
+<p>
+The
+<a>
+Cisco Blogs
+</a>
+platform houses Cisco thought leadership on technology insights, industry trends, product updates, and many more topics.
+</p>
+<p>
+We also conduct academic research in collaboration with leading universities and we share insights on emerging technologies in the
+<a>
+Outshift by Cisco blog
+</a>
+.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3>
+</h3>
+<div>
+<div>
+<div>
+<p>
+Visit our
+<a>
+Investor Relations
+</a>
+site for information about financial reporting, shareholder services, corporate governance, and more.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3>
+</h3>
+<div>
+<div>
+<div>
+<p>
+Explore Cisco job opportunities, benefits, and culture on our
+<a>
+Careers portal
+</a>
+, See why we're the number one place to work in over twenty countries worldwide.
+</p>
+<p>
+Or get help with Cisco
+<a>
+U.S. employment verification
+</a>
+.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3>
+</h3>
+<div>
+<div>
+<div>
+<p>
+Build your IT know-how, upskill your entire team, or meet your career goals with globally recognized certifications.
+<a>
+Start learning
+</a>
+today.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3>
+</h3>
+<div>
+<div>
+<div>
+<p>
+<a>
+Cisco's Code of Business Conduct
+</a>
+specifies our policies concerning ethics, anti-corruption, human rights, and more. Visit
+<a>
+Cisco Legal
+</a>
+for more information about ethics and compliance, trust and brand protection, privacy and human rights, and more.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3>
+</h3>
+<div>
+<div>
+<div>
+<p>
+The following pages are a great starting point for doing business with us:
+</p>
+<ul>
+<li>
+For
+<a>
+customers
+</a>
+</li>
+<li>
+For
+<a>
+partners
+</a>
+</li>
+<li>
+For
+<a>
+suppliers
+</a>
+</li>
+<li>
+<a>
+Supply chain sustainability
+</a>
+</li>
+</ul>
+<p>
+The
+<a>
+Cisco Brand Center
+</a>
+has everything you need to know about using the Cisco brand.
+</p>
+<p>
+To advocate with Cisco, join the
+<a>
+Cisco Insider program
+</a>
+.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</cds-styles>
+</div>
+</div>
+</div>
+</div>
+</div>
+</cds-styles>
+<cds-styles>
+<div>
+<div>
+<hr>
+<div>
+<div>
+<h2>
+Contact us
+</h2>
+</div>
+</div>
+<div>
+<cds-styles>
+<div>
+<div>
+<div>
+<cds-styles>
+<div>
+<div>
+<h3>
+Buying from Cisco
+</h3>
+<div>
+<p>
+Explore options to purchase Cisco products, solutions, and services.
+</p>
+</div>
+<div>
+<span>
+<a>
+<span>
+See how to buy
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</cds-styles>
+</div>
+<div>
+<cds-styles>
+<div>
+<div>
+<h3>
+Global contact information
+</h3>
+<div>
+<p>
+Find a Cisco office or look up global contact information.
+</p>
+</div>
+<div>
+<span>
+<a>
+<span>
+Get in touch with us
+</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</cds-styles>
+</div>
+</div>
+</div>
+</cds-styles>
+</div>
+</div>
+</div>
+</cds-styles>
+<div>
+<div>
+<div>
+<cds-styles>
+<div>
+<div>
+<div>
+</div>
+</div>
+<div>
+</div>
+</div>
+<div>
+</div>
+</cds-styles>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div>
+<div>
+<div>
+<div>
+<div>
+<div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div>
+</div>
+<div>
+<div>
+<div>
+<div>
+<div>
+<div>
+</div>
+<div>
+<div>
+<div>
+By continuing to use our website, you acknowledge the use of cookies.
+</div>
+<div>
+<a>
+Privacy Statement
+</a>
+<a>
+Change Settings
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+</div>
+</div>
+</div>
+<div>
+<div>
+<div>
+<div>
+<img>
+</div>
+<div>
+<h2>
+Consent Manager
+</h2>
+<div>
+</div>
+</div>
+</div>
+<div>
+<div>
+<div>
+</div>
+<span>
+Your opt out preference signal is honored.
+</span>
+</div>
+<div>
+<div>
+<h2>
+Consent Manager
+</h2>
+<ul>
+<li>
+<div>
+<h3>
+Your Privacy
+</h3>
+</div>
+</li>
+<li>
+<div>
+<h3>
+Strictly Necessary Cookies
+</h3>
+</div>
+</li>
+<li>
+<div>
+<h3>
+Performance Cookies
+</h3>
+</div>
+</li>
+<li>
+<div>
+<h3>
+Targeting Cookies
+</h3>
+</div>
+</li>
+<li>
+<div>
+<h3>
+Functional Cookies
+</h3>
+</div>
+</li>
+</ul>
+</div>
+<div>
+<div>
+<h4>
+Your Privacy
+</h4>
+<p>
+When you visit any website, it may store or retrieve information on your browser, mostly in the form of cookies. This information might be about you, your preferences or your device and is mostly used to make the site work as you expect it to. The information does not usually directly identify you, but it can give you a more personalized web experience. Because we respect your right to privacy, you can choose not to allow some types of cookies. From the list on left, please choose whether this site may use Performance and/or Targeting Cookies. By selecting Strictly Necessary Cookies only, you are requesting Cisco not to sell or share your personal data. Note, blocking some types of cookies may impact your experience on the site and the services we are able to offer.
+</p>
+</div>
+<div>
+<div>
+<h4>
+Strictly Necessary Cookies
+</h4>
+<div>
+<div>
+Always Active
+</div>
+</div>
+</div>
+<p>
+These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information.
+</p>
+<div>
+</div>
+</div>
+<div>
+<div>
+<h4>
+Performance Cookies
+</h4>
+<div>

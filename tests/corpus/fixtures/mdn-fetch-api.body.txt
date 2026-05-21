@@ -1,0 +1,1406 @@
+<main>
+<div>
+<mdn-survey>
+</mdn-survey>
+<h1>
+Using the Fetch API
+</h1>
+<section>
+<p>
+The
+<a>
+Fetch API
+</a>
+provides a JavaScript interface for making HTTP requests and processing the responses.
+</p>
+<p>
+Fetch is the modern replacement for
+<a>
+<code>
+XMLHttpRequest
+</code>
+</a>
+: unlike
+<code>
+XMLHttpRequest
+</code>
+, which uses callbacks, Fetch is promise-based and is integrated with features of the modern web such as
+<a>
+service workers
+</a>
+and
+<a>
+Cross-Origin Resource Sharing (CORS)
+</a>
+.
+</p>
+<p>
+With the Fetch API, you make a request by calling
+<a>
+<code>
+fetch()
+</code>
+</a>
+, which is available as a global function in both
+<a>
+<code>
+window
+</code>
+</a>
+and
+<a>
+<code>
+worker
+</code>
+</a>
+contexts. You pass it a
+<a>
+<code>
+Request
+</code>
+</a>
+object or a string containing the URL to fetch, along with an optional argument to configure the request.
+</p>
+<p>
+The
+<code>
+fetch()
+</code>
+function returns a
+<a>
+<code>
+Promise
+</code>
+</a>
+which is fulfilled with a
+<a>
+<code>
+Response
+</code>
+</a>
+object representing the server's response. You can then check the request status and extract the body of the response in various formats, including text and JSON, by calling the appropriate method on the response.
+</p>
+<p>
+Here's a minimal function that uses
+<code>
+fetch()
+</code>
+to retrieve some JSON data from a server:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+We declare a string containing the URL and then call
+<code>
+fetch()
+</code>
+, passing the URL with no extra options.
+</p>
+<p>
+The
+<code>
+fetch()
+</code>
+function will reject the promise on some errors, but not if the server responds with an error status like
+<a>
+<code>
+404
+</code>
+</a>
+: so we also check the response status and throw if it is not OK.
+</p>
+<p>
+Otherwise, we fetch the response body content as
+<a>
+JSON
+</a>
+by calling the
+<a>
+<code>
+json()
+</code>
+</a>
+method of
+<code>
+Response
+</code>
+, and log one of its values. Note that like
+<code>
+fetch()
+</code>
+itself,
+<code>
+json()
+</code>
+is asynchronous, as are all the other methods to access the response body content.
+</p>
+<p>
+In the rest of this page we'll look in more detail at the different stages of this process.
+</p>
+</section>
+</div>
+<div>
+<section>
+<h2>
+<a>
+Making a request
+</a>
+</h2>
+<p>
+To make a request, call
+<code>
+fetch()
+</code>
+, passing in:
+</p>
+<ol>
+<li>
+a definition of the resource to fetch. This can be any one of:
+<ul>
+<li>
+a string containing the URL
+</li>
+<li>
+an object, such as an instance of
+<a>
+<code>
+URL
+</code>
+</a>
+, which has a
+<a>
+stringifier
+</a>
+that produces a string containing the URL
+</li>
+<li>
+a
+<a>
+<code>
+Request
+</code>
+</a>
+instance
+</li>
+</ul>
+</li>
+<li>
+optionally, an object containing options to configure the request.
+</li>
+</ol>
+<p>
+In this section we'll look at some of the most commonly-used options. To read about all the options that can be given, see the
+<a>
+<code>
+fetch()
+</code>
+</a>
+reference page.
+</p>
+</section>
+<section>
+<h3>
+<a>
+Setting the method
+</a>
+</h3>
+<p>
+By default,
+<code>
+fetch()
+</code>
+makes a
+<a>
+<code>
+GET
+</code>
+</a>
+request, but you can use the
+<code>
+method
+</code>
+option to use a different
+<a>
+request method
+</a>
+:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+If the
+<code>
+mode
+</code>
+option is set to
+<code>
+no-cors
+</code>
+, then
+<code>
+method
+</code>
+must be one of
+<code>
+GET
+</code>
+,
+<code>
+POST
+</code>
+or
+<code>
+HEAD
+</code>
+.
+</p>
+</section>
+<section>
+<h3>
+<a>
+Setting a body
+</a>
+</h3>
+<p>
+The request body is the payload of the request: it's the thing the client is sending to the server. You cannot include a body with
+<code>
+GET
+</code>
+requests, but it's useful for requests that send content to the server, such as
+<a>
+<code>
+POST
+</code>
+</a>
+or
+<a>
+<code>
+PUT
+</code>
+</a>
+requests. For example, if you want to upload a file to the server, you might make a
+<code>
+POST
+</code>
+request and include the file as the request body.
+</p>
+<p>
+To set a request body, pass it as the
+<code>
+body
+</code>
+option:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+You can supply the body as an instance of any of the following types:
+</p>
+<ul>
+<li>
+a string
+</li>
+<li>
+<a>
+<code>
+ArrayBuffer
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+TypedArray
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+DataView
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+Blob
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+File
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+URLSearchParams
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+FormData
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+ReadableStream
+</code>
+</a>
+</li>
+</ul>
+<p>
+Other objects are converted to strings using their
+<code>
+toString()
+</code>
+method. For example, you can use a
+<a>
+<code>
+URLSearchParams
+</code>
+</a>
+object to encode form data (see
+<a>
+setting headers
+</a>
+for more information):
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+Note that just like response bodies, request bodies are streams, and making the request reads the stream, so if a request contains a body, you can't make it twice:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+Instead, you would need to
+<a>
+create a clone
+</a>
+of the request before sending it:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+See
+<a>
+Locked and disturbed streams
+</a>
+for more information.
+</p>
+</section>
+<section>
+<h3>
+<a>
+Setting headers
+</a>
+</h3>
+<p>
+Request headers give the server information about the request: for example, in a
+<code>
+POST
+</code>
+request, the
+<a>
+<code>
+Content-Type
+</code>
+</a>
+header tells the server the format of the request's body.
+</p>
+<p>
+To set request headers, assign them to the
+<code>
+headers
+</code>
+option.
+</p>
+<p>
+You can pass an object literal here containing
+<code>
+header-name: header-value
+</code>
+properties:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+Alternatively, you can construct a
+<a>
+<code>
+Headers
+</code>
+</a>
+object, add headers to that object using
+<a>
+<code>
+Headers.append()
+</code>
+</a>
+, then assign the
+<code>
+Headers
+</code>
+object to the
+<code>
+headers
+</code>
+option:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+Compared to using plain objects, the
+<code>
+Headers
+</code>
+object provides some additional input sanitization. For example, it normalizes header names to lowercase, strips leading and trailing whitespace from header values, and prevents certain headers from being set. Many headers are set automatically by the browser and can't be set by a script: these are called
+<a>
+Forbidden request headers
+</a>
+. If the
+<a>
+<code>
+mode
+</code>
+</a>
+option is set to
+<code>
+no-cors
+</code>
+, then the set of permitted headers is further restricted.
+</p>
+</section>
+<section>
+<h3>
+<a>
+Sending data in a GET request
+</a>
+</h3>
+<p>
+<code>
+GET
+</code>
+requests don't have a body, but you can still send data to the server by appending it to the URL as a query string. This is a common way to send form data to the server. You can do this by using
+<a>
+<code>
+URLSearchParams
+</code>
+</a>
+to encode the data, and then appending it to the URL:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+</section>
+<section>
+<h3>
+<a>
+Making cross-origin requests
+</a>
+</h3>
+<p>
+Whether a request can be made cross-origin or not is determined by the value of the
+<a>
+<code>
+RequestInit.mode
+</code>
+</a>
+option. This may take one of three values:
+<code>
+cors
+</code>
+,
+<code>
+same-origin
+</code>
+, or
+<code>
+no-cors
+</code>
+.
+</p>
+<ul>
+<li>
+<p>
+For fetch requests the default value of
+<code>
+mode
+</code>
+is
+<code>
+cors
+</code>
+, meaning that if the request is cross-origin then it will use the
+<a>
+Cross-Origin Resource Sharing (CORS)
+</a>
+mechanism. This means that:
+</p>
+<ul>
+<li>
+if the request is a
+<a>
+simple request
+</a>
+, then the request will always be sent, but the server must respond with the correct
+<a>
+<code>
+Access-Control-Allow-Origin
+</code>
+</a>
+header or the browser will not share the response with the caller.
+</li>
+<li>
+if the request is not a simple request, then the browser will send a
+<a>
+preflighted request
+</a>
+to check that the server understands CORS and allows the request, and the real request will not be sent unless the server responds to the preflighted request with the appropriate CORS headers.
+</li>
+</ul>
+</li>
+<li>
+<p>
+Setting
+<code>
+mode
+</code>
+to
+<code>
+same-origin
+</code>
+disallows cross-origin requests completely.
+</p>
+</li>
+<li>
+<p>
+Setting
+<code>
+mode
+</code>
+to
+<code>
+no-cors
+</code>
+disables CORS for cross-origin requests. This restricts the headers that may be set, and restricts methods to GET, HEAD, and POST. The response is
+<em>
+opaque
+</em>
+, meaning that its headers and body are not available to JavaScript. Most of the time a website should not use
+<code>
+no-cors
+</code>
+: the main application of it is for certain service worker use cases.
+</p>
+</li>
+</ul>
+<p>
+See the reference documentation for
+<a>
+<code>
+RequestInit.mode
+</code>
+</a>
+for more details.
+</p>
+</section>
+<section>
+<h3>
+<a>
+Including credentials
+</a>
+</h3>
+<p>
+In the context of the Fetch API, a credential is an extra piece of data sent along with the request that the server may use to authenticate the user. All the following items are considered to be credentials:
+</p>
+<ul>
+<li>
+HTTP cookies
+</li>
+<li>
+<a>
+TLS
+</a>
+client certificates
+</li>
+<li>
+The
+<a>
+<code>
+Authorization
+</code>
+</a>
+and
+<a>
+<code>
+Proxy-Authorization
+</code>
+</a>
+headers.
+</li>
+</ul>
+<p>
+By default, credentials are only included in same-origin requests. To customize this behavior, as well as to control whether the browser respects any
+<strong>
+<code>
+Set-Cookie
+</code>
+</strong>
+response headers, set the
+<a>
+<code>
+credentials
+</code>
+</a>
+option, which can take one of the following three values:
+</p>
+<ul>
+<li>
+<code>
+omit
+</code>
+: never send credentials in the request or include credentials in the response.
+</li>
+<li>
+<code>
+same-origin
+</code>
+(the default): only send and include credentials for same-origin requests.
+</li>
+<li>
+<code>
+include
+</code>
+: always include credentials, even cross-origin.
+</li>
+</ul>
+<p>
+Note that if a cookie's
+<a>
+<code>
+SameSite
+</code>
+</a>
+attribute is set to
+<code>
+Strict
+</code>
+or
+<code>
+Lax
+</code>
+, then the cookie will not be sent cross-site, even if
+<code>
+credentials
+</code>
+is set to
+<code>
+include
+</code>
+.
+</p>
+<p>
+Including credentials in cross-origin requests can make a site vulnerable to
+<a>
+CSRF
+</a>
+attacks, so even if
+<code>
+credentials
+</code>
+is set to
+<code>
+include
+</code>
+, the server must also agree to their inclusion by including the
+<a>
+<code>
+Access-Control-Allow-Credentials
+</code>
+</a>
+header in its response. Additionally, in this situation the server must explicitly specify the client's origin in the
+<a>
+<code>
+Access-Control-Allow-Origin
+</code>
+</a>
+response header (that is,
+<code>
+*
+</code>
+is not allowed).
+</p>
+<p>
+This means that if
+<code>
+credentials
+</code>
+is set to
+<code>
+include
+</code>
+and the request is cross-origin, then:
+</p>
+<ul>
+<li>
+<p>
+If the request is a
+<a>
+simple request
+</a>
+, then the request will be sent with credentials, but the server must set the
+<a>
+<code>
+Access-Control-Allow-Credentials
+</code>
+</a>
+and
+<a>
+<code>
+Access-Control-Allow-Origin
+</code>
+</a>
+response headers, or the browser will return a network error to the caller. If the server does set the correct headers, then the response, including credentials, will be delivered to the caller.
+</p>
+</li>
+<li>
+<p>
+If the request is not a simple request, then the browser will send a
+<a>
+preflighted request
+</a>
+without credentials, and the server must set the
+<a>
+<code>
+Access-Control-Allow-Credentials
+</code>
+</a>
+and
+<a>
+<code>
+Access-Control-Allow-Origin
+</code>
+</a>
+response headers, or the browser will return a network error to the caller. If the server does set the correct headers, then the browser will follow up with the real request, including credentials, and will deliver the real response, including credentials, to the caller.
+</p>
+</li>
+</ul>
+</section>
+<section>
+<h3>
+<a>
+Creating a
+<code>
+Request
+</code>
+object
+</a>
+</h3>
+<p>
+The
+<a>
+<code>
+Request()
+</code>
+</a>
+constructor takes the same arguments as
+<code>
+fetch()
+</code>
+itself. This means that instead of passing options into
+<code>
+fetch()
+</code>
+, you can pass the same options to the
+<code>
+Request()
+</code>
+constructor, and then pass that object to
+<code>
+fetch()
+</code>
+.
+</p>
+<p>
+For example, we can make a POST request by passing options into
+<code>
+fetch()
+</code>
+using code like this:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+However, we could rewrite this to pass the same arguments to the
+<code>
+Request()
+</code>
+constructor:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+This also means that you can create a request from another request, while changing some of its properties using the second argument:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+</section>
+<section>
+<h2>
+<a>
+Canceling a request
+</a>
+</h2>
+<p>
+To make a request cancelable, create an
+<a>
+<code>
+AbortController
+</code>
+</a>
+, and assign its
+<a>
+<code>
+AbortSignal
+</code>
+</a>
+to the request's
+<code>
+signal
+</code>
+property.
+</p>
+<p>
+To cancel the request, call the controller's
+<a>
+<code>
+abort()
+</code>
+</a>
+method. The
+<code>
+fetch()
+</code>
+call will reject the promise with an
+<code>
+AbortError
+</code>
+exception.
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+If the request is aborted after the
+<code>
+fetch()
+</code>
+call has been fulfilled but before the response body has been read, then attempting to read the response body will reject with an
+<code>
+AbortError
+</code>
+exception.
+</p>
+<mdn-code-example>
+</mdn-code-example>
+</section>
+<section>
+<h2>
+<a>
+Handling the response
+</a>
+</h2>
+<p>
+As soon as the browser has received the response status and headers from the server (and potentially before the response body itself has been received), the promise returned by
+<code>
+fetch()
+</code>
+is fulfilled with a
+<a>
+<code>
+Response
+</code>
+</a>
+object.
+</p>
+</section>
+<section>
+<h3>
+<a>
+Checking response status
+</a>
+</h3>
+<p>
+The promise returned by
+<code>
+fetch()
+</code>
+will reject on some errors, such as a network error or a bad scheme. However, if the server responds with an error like
+<a>
+<code>
+404
+</code>
+</a>
+, then
+<code>
+fetch()
+</code>
+fulfills with a
+<code>
+Response
+</code>
+, so we have to check the status before we can read the response body.
+</p>
+<p>
+The
+<a>
+<code>
+Response.status
+</code>
+</a>
+property tells us the numerical status code, and the
+<a>
+<code>
+Response.ok
+</code>
+</a>
+property returns
+<code>
+true
+</code>
+if the status is in the
+<a>
+200 range
+</a>
+.
+</p>
+<p>
+A common pattern is to check the value of
+<code>
+ok
+</code>
+and throw if it is
+<code>
+false
+</code>
+:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+</section>
+<section>
+<h3>
+<a>
+Checking the response type
+</a>
+</h3>
+<p>
+Responses have a
+<a>
+<code>
+type
+</code>
+</a>
+property that can be one of the following:
+</p>
+<ul>
+<li>
+<code>
+basic
+</code>
+: the request was a same-origin request.
+</li>
+<li>
+<code>
+cors
+</code>
+: the request was a cross-origin CORS request.
+</li>
+<li>
+<code>
+opaque
+</code>
+: the request was a cross-origin simple request made with the
+<code>
+no-cors
+</code>
+mode.
+</li>
+<li>
+<code>
+opaqueredirect
+</code>
+: the request set the
+<code>
+redirect
+</code>
+option to
+<code>
+manual
+</code>
+, and the server returned a
+<a>
+redirect status
+</a>
+.
+</li>
+</ul>
+<p>
+The type determines the possible contents of the response, as follows:
+</p>
+<ul>
+<li>
+<p>
+Basic responses exclude response headers from the
+<a>
+Forbidden response header name
+</a>
+list.
+</p>
+</li>
+<li>
+<p>
+CORS responses include only response headers from the
+<a>
+CORS-safelisted response header
+</a>
+list.
+</p>
+</li>
+<li>
+<p>
+Opaque responses and opaque redirect responses have a
+<code>
+status
+</code>
+of
+<code>
+0
+</code>
+, an empty header list, and a
+<code>
+null
+</code>
+body.
+</p>
+</li>
+</ul>
+</section>
+<section>
+<h3>
+<a>
+Checking headers
+</a>
+</h3>
+<p>
+Just like the request, the response has a
+<a>
+<code>
+headers
+</code>
+</a>
+property which is a
+<a>
+<code>
+Headers
+</code>
+</a>
+object, and this contains any response headers that are exposed to scripts, subject to the exclusions made based on the response type.
+</p>
+<p>
+A common use case for this is to check the content type before trying to read the body:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+</section>
+<section>
+<h3>
+<a>
+Reading the response body
+</a>
+</h3>
+<p>
+The
+<code>
+Response
+</code>
+interface provides a number of methods to retrieve the entire body contents in a variety of different formats:
+</p>
+<ul>
+<li>
+<a>
+<code>
+Response.arrayBuffer()
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+Response.blob()
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+Response.formData()
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+Response.json()
+</code>
+</a>
+</li>
+<li>
+<a>
+<code>
+Response.text()
+</code>
+</a>
+</li>
+</ul>
+<p>
+These are all asynchronous methods, returning a
+<a>
+<code>
+Promise
+</code>
+</a>
+which will be fulfilled with the body content.
+</p>
+<p>
+In this example, we fetch an image and read it as a
+<a>
+<code>
+Blob
+</code>
+</a>
+, which we can then use to create an object URL:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+The method will throw an exception if the response body is not in the appropriate format: for example, if you call
+<code>
+json()
+</code>
+on a response that can't be parsed as JSON.
+</p>
+</section>
+<section>
+<h3>
+<a>
+Streaming the response body
+</a>
+</h3>
+<p>
+Request and response bodies are actually
+<a>
+<code>
+ReadableStream
+</code>
+</a>
+objects, and whenever you read them, you're streaming the content. This is good for memory efficiency, because the browser doesn't have to buffer the entire response in memory before the caller retrieves it using a method like
+<code>
+json()
+</code>
+.
+</p>
+<p>
+This also means that the caller can process the content incrementally as it is received.
+</p>
+<p>
+For example, consider a
+<code>
+GET
+</code>
+request that fetches a large text file and processes it in some way, or displays it to the user:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+If we use
+<a>
+<code>
+Response.text()
+</code>
+</a>
+, as above, we must wait until the whole file has been received before we can process any of it.
+</p>
+<p>
+If we stream the response instead, we can process chunks of the body as they are received from the network:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+In this example, we
+<a>
+iterate asynchronously
+</a>
+over the stream, processing each chunk as it arrives.
+</p>
+<p>
+Note that when you access the body directly like this, you get the raw bytes of the response and must transform it yourself. In this case we call
+<a>
+<code>
+ReadableStream.pipeThrough()
+</code>
+</a>
+to pipe the response through a
+<a>
+<code>
+TextDecoderStream
+</code>
+</a>
+, which decodes the UTF-8-encoded body data as text.
+</p>
+</section>
+<section>
+<h3>
+<a>
+Processing a text file line by line
+</a>
+</h3>
+<p>
+In the example below, we fetch a text resource and process it line by line, using a regular expression to look for line endings. For simplicity, we assume the text is UTF-8, and don't handle fetch errors:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+</section>
+<section>
+<h3>
+<a>
+Locked and disturbed streams
+</a>
+</h3>
+<p>
+The consequences of request and response bodies being streams are that:
+</p>
+<ul>
+<li>
+if a reader has been attached to a stream using
+<code>
+ReadableStream.getReader()
+</code>
+, then the stream is
+<em>
+locked
+</em>
+, and nothing else can read the stream.
+</li>
+<li>
+if any content has been read from the stream, then the stream is
+<em>
+disturbed
+</em>
+, and nothing else can read from the stream.
+</li>
+</ul>
+<p>
+This means it's not possible to read the same response (or request) body more than once:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+If you do need to read the body more than once, you must call
+<a>
+<code>
+Response.clone()
+</code>
+</a>
+before reading the body:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+<p>
+This is a common pattern when
+<a>
+implementing an offline cache with service workers
+</a>
+. The service worker wants to return the response to the app, but also to cache the response. So it clones the response, returns the original, and caches the clone:
+</p>
+<mdn-code-example>
+</mdn-code-example>
+</section>
+<section>
+<h2>
+<a>
+See also
+</a>
+</h2>
+<ul>
+<li>
+<a>
+Service Worker API
+</a>
+</li>
+<li>
+<a>
+Streams API
+</a>
+</li>
+<li>
+<a>
+CORS
+</a>
+</li>
+<li>
+<a>
+HTTP
+</a>
+</li>
+<li>
+<a>
+Fetch examples on GitHub
+</a>
+</li>
+</ul>
+</section>
+<section>
+<div>
+<div>
+</div>
+<h2>
+Help improve MDN
+</h2>
+<mdn-content-feedback>
+</mdn-content-feedback>
+<a>
+Learn how to contribute
+</a>
+<p>
+This page was last modified on
+<time>
+Aug 20, 2025
+</time>
+by
+<a>
+MDN contributors
+</a>
+.
+</p>
+<div>
+<a>
+View this page on GitHub
+</a>
+•
+<a>
+Report a problem with this content
+</a>
+</div>
+</div>
+</section>
+</div>
+</main>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>On the Quiet Joy of Static Sites — A Synthetic Blog</title>
+    <meta name="author" content="A Synthetic Author">
+</head>
+<body>
+    <header class="site-header">
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/archive">Archive</a>
+        </nav>
+    </header>
+
+    <aside class="sidebar">
+        <h3>Recent posts</h3>
+        <ul>
+            <li><a href="/p1">First post</a></li>
+            <li><a href="/p2">Second post</a></li>
+        </ul>
+    </aside>
+
+    <article class="post-content">
+        <h1>On the Quiet Joy of Static Sites</h1>
+        <p>The web used to be made of files. You wrote HTML, you put it on a server, and someone, somewhere, read it. There was no build step. There was no framework. There was, mercifully, no JavaScript.</p>
+        <p>Static sites are a return to that idea — but with the modern conveniences that make it less painful: templates, partials, a content directory, maybe a CSS bundler if you must.</p>
+        <h2>Why bother</h2>
+        <p>You bother because the alternative is a stack so deep that nobody on your team can explain it on a whiteboard. You bother because you want to be able to read your own site in ten years.</p>
+        <h2>What you give up</h2>
+        <p>You give up real-time data. You give up server-side personalization. For most blogs, this is a feature, not a bug.</p>
+        <ul>
+            <li>No login wall</li>
+            <li>No tracking pixels you didn't ask for</li>
+            <li>No "loading skeleton" on first paint</li>
+        </ul>
+        <p>The cost: you can't easily add comments without bringing in a third party. So <em>don't add comments</em>. Email is fine.</p>
+    </article>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 A Synthetic Author. Built with hugs and HTML.</p>
+        <nav>
+            <a href="/rss.xml">RSS</a>
+            <a href="/atom.xml">Atom</a>
+        </nav>
+    </footer>
+</body>
+</html>

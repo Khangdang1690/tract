@@ -1,0 +1,203 @@
+# tract reference corpus.
+#
+# Each entry pins an URL to one of four buckets and provides a stable id used
+# as the filename for `fixtures/<id>.html` and `expected/<id>.md`.
+#
+# To (re)generate fixtures, run `tools/refgen` against this file (Playwright
+# required). `expected/` is hand-curated and never overwritten by refgen.
+#
+# Buckets:
+#   trivial      ~6 URLs   — well-marked-up, sub-second on easy HTTP
+#   moderate     ~10 URLs  — well-known content sites, structurally varied
+#   hard         ~6 URLs   — Cloudflare/Akamai/JS-heavy
+#   adversarial  ~4 URLs   — block pages, soft-200 challenges, stubs
+
+# --- trivial -----------------------------------------------------------------
+
+[[entries]]
+id = "example-com"
+url = "https://example.com/"
+bucket = "trivial"
+expected_kind = "Article"
+notes = "Stable, minimal. Smoke test for the eval pipeline."
+
+[[entries]]
+id = "static-blog-post"
+url = "synthetic://static-blog-post"
+bucket = "trivial"
+expected_kind = "BlogPost"
+notes = "Authored locally (no refgen). HTML lives in fixtures/ directly."
+
+[[entries]]
+id = "mdn-array-map"
+url = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"
+bucket = "trivial"
+expected_kind = "Docs"
+notes = "Well-structured docs. Sidebar/footer must not leak."
+
+[[entries]]
+id = "rfc-2324-coffeepot"
+url = "https://www.rfc-editor.org/rfc/rfc2324.html"
+bucket = "trivial"
+expected_kind = "Docs"
+notes = "Short famous RFC (Hyper Text Coffee Pot Control Protocol). <pre>-wrapped text but small enough to curate."
+
+[[entries]]
+id = "hugo-quickstart"
+url = "https://gohugo.io/getting-started/quick-start/"
+bucket = "trivial"
+expected_kind = "Docs"
+notes = "Hugo's quick-start tutorial. Tests prose+code extraction on a static-site generator's own docs."
+
+[[entries]]
+id = "httpbin-html"
+url = "https://httpbin.org/html"
+bucket = "trivial"
+expected_kind = "Article"
+notes = "Tiny, deterministic. A Tale of Two Cities excerpt."
+
+# --- moderate ----------------------------------------------------------------
+
+[[entries]]
+id = "wikipedia-erlang"
+url = "https://en.wikipedia.org/wiki/Erlang_(programming_language)"
+bucket = "moderate"
+expected_kind = "Article"
+notes = "Infobox, edit links, category footer all need to be stripped."
+
+[[entries]]
+id = "github-readme-rust"
+url = "https://github.com/rust-lang/rust"
+bucket = "moderate"
+expected_kind = "Docs"
+notes = "Rendered README inside heavy repo chrome."
+
+[[entries]]
+id = "pypi-requests"
+url = "https://pypi.org/project/requests/"
+bucket = "moderate"
+expected_kind = "Docs"
+notes = "Project metadata + README."
+
+[[entries]]
+id = "stackoverflow-question"
+url = "https://stackoverflow.com/questions/231767/what-does-the-yield-keyword-do-in-python"
+bucket = "moderate"
+expected_kind = "ForumThread"
+notes = "Question + accepted answer; sidebar of related questions must drop. Currently blocked by Cloudflare — fixture is a CF challenge page. Real content unblocks when Phase D ships TLS fingerprinting."
+
+[[entries]]
+id = "python-docs-functions"
+url = "https://docs.python.org/3/library/functions.html"
+bucket = "moderate"
+expected_kind = "Docs"
+notes = "Long table of contents + reference docs."
+
+[[entries]]
+id = "real-python-tutorial"
+url = "https://realpython.com/python-f-strings/"
+bucket = "moderate"
+expected_kind = "Article"
+notes = "Tutorial site with ads/nav."
+
+[[entries]]
+id = "seriouseats-recipe"
+url = "https://www.seriouseats.com/the-best-french-fries-recipe"
+bucket = "moderate"
+expected_kind = "Article"
+notes = "Recipe site; ingredients + steps + ads. URL currently 404s — swap for a known-good recipe URL (e.g. https://www.seriouseats.com/easy-pan-pizza-recipe or another current article)."
+
+[[entries]]
+id = "rust-book-ownership"
+url = "https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html"
+bucket = "moderate"
+expected_kind = "Docs"
+notes = "mdBook output; navigation chrome on both sides."
+
+[[entries]]
+id = "mdn-fetch-api"
+url = "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
+bucket = "moderate"
+expected_kind = "Docs"
+notes = "Longer than mdn-array-map; tables and code blocks."
+
+[[entries]]
+id = "no-paywall-news"
+url = "https://apnews.com/article/markets-stocks-trading-economy"
+bucket = "moderate"
+expected_kind = "Article"
+notes = "News article; URL currently 404s ('Page unavailable'). Swap for a current AP article from https://apnews.com/hub/ap-top-news or similar before treating this entry's score as Phase B signal."
+
+# --- hard --------------------------------------------------------------------
+
+[[entries]]
+id = "cloudflare-news"
+url = "https://www.theverge.com/"
+bucket = "hard"
+expected_kind = "Listing"
+notes = "Cloudflare-fronted homepage (not a single article). URL points at the front page so the fixture captures a news-listing layout. Swap to a specific Verge article URL if/when we want a Cloudflare-fronted article-extraction test."
+
+[[entries]]
+id = "shopify-product"
+url = "https://shop.tesla.com/product/men_s-3d-wordmark-flowmotion-tee"
+bucket = "hard"
+expected_kind = "ProductPage"
+notes = "Representative Shopify storefront."
+
+[[entries]]
+id = "discourse-thread"
+url = "https://meta.discourse.org/t/welcome-to-meta-discourse-org/1"
+bucket = "hard"
+expected_kind = "ForumThread"
+notes = "JS-rendered forum; needs Phase E."
+
+[[entries]]
+id = "akamai-doc"
+url = "https://www.cisco.com/c/en/us/about.html"
+bucket = "hard"
+expected_kind = "Article"
+notes = "Akamai-fronted; placeholder until a confirmed-fronted URL is chosen."
+
+[[entries]]
+id = "js-spa-listing"
+url = "synthetic://js-spa-listing"
+bucket = "hard"
+expected_kind = "Listing"
+notes = "Synthetic Next.js-style SPA shell with empty hydration target. The HTML body contains only a <noscript> fallback and an empty <div id=\"__next\">; real content would be rendered client-side. Tests that the extractor surfaces a near-empty Listing without hallucinating content. Phase E (JS rendering) will be required to actually fill these out — at that point a real JS-rendered URL can replace this fixture."
+
+[[entries]]
+id = "press-release"
+url = "https://www.apple.com/newsroom/"
+bucket = "hard"
+expected_kind = "Listing"
+notes = "Cloudflare-fronted press release index."
+
+# --- adversarial -------------------------------------------------------------
+
+[[entries]]
+id = "cloudflare-block-page"
+url = "synthetic://cloudflare-block"
+bucket = "adversarial"
+expected_kind = "BlockPage"
+notes = "Captured Cloudflare 1020 'Access denied' page. HTML authored locally."
+
+[[entries]]
+id = "soft-200-challenge"
+url = "synthetic://soft-200"
+bucket = "adversarial"
+expected_kind = "BlockPage"
+notes = "'Just a moment...' interstitial. HTML authored locally."
+
+[[entries]]
+id = "stub-response"
+url = "synthetic://stub-200"
+bucket = "adversarial"
+expected_kind = "Stub"
+notes = "200 OK with <500 bytes body. HTML authored locally."
+
+[[entries]]
+id = "wrong-page-redirect"
+url = "synthetic://wrong-canonical"
+bucket = "adversarial"
+expected_kind = "Unknown"
+notes = "Canonical-URL mismatch. HTML authored locally."
